@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALL INDIA MARWARI YUVA MANCH</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <style>
+        /* Header styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+        
+        .logo {
+            text-align: center;
+            flex-grow: 1;
+        }
+        
+        .logo h2 {
+            color: var(--dark-pink);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .logo p {
+            margin: 5px 0 0;
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logout-btn {
+            background-color: var(--primary-pink);
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: var(--dark-pink);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-welcome {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .welcome-text {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+            margin: 0;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin: 0;
+        }
+        
+        /* Logo in content area */
+        .content-logo {
+            margin-bottom: 20px;
+            max-width: 200px;
+        }
+
+        /* Clean dashboard with minimal content */
+        .dashboard-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 140px); /* Adjust for header and footer */
+        }
+        
+        .content-area {
+            text-align: center;
+            color: #999;
+        }
+        
+        /* Hide sidebar */
+        .sidebar {
+            display: none;
+        }
+        
+        /* Floating buttons styles */
+        .floating-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .floating-btn {
+            width: 180px;
+            padding: 15px 20px;
+            border-radius: 30px;
+            background-color: var(--primary-pink);
+            color: var(--white);
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .floating-btn:hover {
+            background-color: var(--dark-pink);
+            transform: translateY(-3px);
+        }
+        
+        /* Entry options container */
+        .entry-options {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .entry-options.active {
+            display: flex;
+        }
+        
+        .entry-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
+            width: 90%;
+            max-width: 500px; /* Smaller grid */
+            aspect-ratio: 1/1;
+        }
+        
+        .entry-option {
+            background-color: var(--white);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            font-weight: 500;
+            font-size: 0.95rem; /* Smaller font */
+            text-align: center;
+            color: var(--dark-gray);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .entry-option:hover {
+            background-color: var(--light-pink);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+        
+        /* Branch details container */
+        .branch-details-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .branch-details-container.active {
+            display: flex;
+        }
+        
+        .branch-details-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .branch-details-card h2 {
+            color: var(--dark-pink);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="user-dashboard">
+    <!-- Header Section -->
+    <header class="dashboard-header">
+        <!-- User Profile at Left -->
+        <div class="user-profile">
+            <div class="user-avatar">
+                <img src="assets/images/picofme.png" alt="User Photo">
+            </div>
+            <div class="user-welcome">
+                <p class="welcome-text">Welcome</p>
+                <span class="user-name">Madan Maskara</span>
+            </div>
+        </div>
+        
+        <!-- Logo and Title in Center -->
+        <div class="logo">
+            <h2>ALL INDIA MARWARI YUVA MANCH</h2>
+            <p>Entries</p>
+        </div>
+        
+        <!-- Logout at Right -->
+        <div class="user-menu">
+            <a href="index.html" class="logout-btn">Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content Section - Empty except for minimal text -->
+    <main class="dashboard-content">
+        <div class="content-area">
+            <img src="assets/images/MYM Logo.png" alt="AIMYM Logo" class="content-logo">
+            <h1>Welcome to the User Dashboard</h1>
+            <p>Use the floating buttons to access features</p>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="dashboard-footer">
+        <p>&copy; 2025 ALL INDIA MARWARI YUVA MANCH. All rights reserved.</p>
+    </footer>
+    
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <div class="floating-btn" id="branchDetailsBtn">Branch Details</div>
+        <div class="floating-btn" id="entriesBtn">Entries</div>
+    </div>
+    
+    <!-- Branch Details Container -->
+    <div class="branch-details-container" id="branchDetailsContainer">
+        <div class="close-btn" id="closeBranchDetails">×</div>
+        <div class="branch-details-card">
+            <h2>Branch Details</h2>
+            <div class="branch-info">
+                <p>These details are entered by the Admin and cannot be edited.</p>
+                <div id="branchDetailsContent">
+                    <!-- Branch details will be loaded here -->
+                    <p>No branch details available at the moment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Entry Options Container -->
+    <div class="entry-options" id="entryOptionsContainer">
+        <div class="close-btn" id="closeEntryOptions">×</div>
+        <div class="entry-grid">
+            <div class="entry-option" id="activityDetails">Activity Details</div>
+            <div class="entry-option" id="meetingDetails">Meeting Details</div>
+            <div class="entry-option" id="executiveVisit">National / Provisional Executive Visit</div>
+            <div class="entry-option" id="projectDetails">National Project Details</div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Branch Details Button
+            const branchDetailsBtn = document.getElementById('branchDetailsBtn');
+            const branchDetailsContainer = document.getElementById('branchDetailsContainer');
+            const closeBranchDetails = document.getElementById('closeBranchDetails');
+            
+            branchDetailsBtn.addEventListener('click', function() {
+                branchDetailsContainer.classList.add('active');
+            });
+            
+            closeBranchDetails.addEventListener('click', function() {
+                branchDetailsContainer.classList.remove('active');
+            });
+            
+            // Entries Button
+            const entriesBtn = document.getElementById('entriesBtn');
+            const entryOptionsContainer = document.getElementById('entryOptionsContainer');
+            const closeEntryOptions = document.getElementById('closeEntryOptions');
+            
+            entriesBtn.addEventListener('click', function() {
+                entryOptionsContainer.classList.add('active');
+            });
+            
+            closeEntryOptions.addEventListener('click', function() {
+                entryOptionsContainer.classList.remove('active');
+            });
+            
+            // Entry Options
+const entryOptions = document.querySelectorAll('.entry-option');
+
+entryOptions.forEach(option => {
+    option.addEventListener('click', function() {
+        // Remove the alert and directly navigate to the specific entry form
+        const pageId = this.id;
+        switch(pageId) {
+            case 'activityDetails':
+                window.location.href = 'activity-details.html';
+                break;
+            case 'meetingDetails':
+                window.location.href = 'meeting-details.html';
+                break;
+            case 'executiveVisit':
+                window.location.href = 'executive-visit.html';
+                break;
+            case 'projectDetails':
+                window.location.href = 'project-details.html';
+                break;
+        }
+        entryOptionsContainer.classList.remove('active');
+    });
+});
+
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === branchDetailsContainer) {
+                    branchDetailsContainer.classList.remove('active');
+                }
+                if (e.target === entryOptionsContainer) {
+                    entryOptionsContainer.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

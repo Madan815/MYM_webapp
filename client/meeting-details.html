@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Details</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <script src="js/meeting-form.js"></script>
+    <style>
+        /* Modern Form styles */
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        .dashboard-content {
+            padding: 30px 0;
+        }
+        
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .form-header {
+            background-color: var(--primary-pink);
+            padding: 25px 40px;
+            position: relative;
+        }
+        
+        .form-title {
+            color: var(--white);
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .form-subtitle {
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-body {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group:last-of-type {
+            margin-bottom: 10px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+        
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 0 3px rgba(237, 90, 122, 0.15);
+            background-color: var(--white);
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-group.file-upload {
+            background-color: #f9f9f9;
+            border: 2px dashed #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group.file-upload:hover {
+            border-color: var(--primary-pink);
+        }
+        
+        .file-upload-label {
+            display: block;
+            cursor: pointer;
+        }
+        
+        .file-upload-icon {
+            display: block;
+            margin: 0 auto 15px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--light-pink);
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .file-upload-icon:before,
+        .file-upload-icon:after {
+            content: '';
+            position: absolute;
+            background-color: white;
+        }
+        
+        .file-upload-icon:before {
+            width: 2px;
+            height: 20px;
+            top: 15px;
+            left: 24px;
+        }
+        
+        .file-upload-icon:after {
+            width: 20px;
+            height: 2px;
+            top: 24px;
+            left: 15px;
+        }
+        
+        .file-upload-text {
+            font-weight: 500;
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+        
+        .file-upload-subtext {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .image-upload {
+            position: absolute;
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn {
+            background-color: #f0f0f0;
+            color: var(--dark-gray);
+        }
+        
+        .back-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-pink);
+            color: var(--white);
+            box-shadow: 0 4px 10px rgba(237, 90, 122, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--dark-pink);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(237, 90, 122, 0.4);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-header {
+                padding: 20px 25px;
+            }
+            
+            .form-body {
+                padding: 25px;
+            }
+            
+            .form-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Main Content Section -->
+    <main class="dashboard-content">
+        <div class="form-container">
+            <div class="form-header">
+                <h1 class="form-title">Meeting Details</h1>
+                <p class="form-subtitle">Record information about your meeting</p>
+            </div>
+            
+            <div class="form-body">
+                <form id="meetingForm">
+                    <div class="form-group">
+                        <label for="meetingDate">Date of Meeting</label>
+                        <input type="date" id="meetingDate" name="meetingDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activityName">Duration (in hours)</label>
+                        <input type="number" id="activityName" name="activityName" placeholder="Enter duration" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="meetingType">Select Meeting Type</label>
+                        <select id="meetingType" name="meetingType" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="Karyakarni">Karyakarni</option>
+                            <option value="Anant Subho">Anant Subho</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activityName">Attendees</label>
+                        <input type="text" id="activityName" name="activityName" placeholder="Enter name of the attendees" required>
+                    </div>
+                    
+                    <div class="form-group file-upload">
+                        <label for="meetingImages" class="file-upload-label">
+                            <span class="file-upload-icon"></span>
+                            <span class="file-upload-text">Upload Images</span>
+                            <span class="file-upload-subtext">Drag & drop files or click to browse</span>
+                        </label>
+                        <input type="file" id="meetingImages" name="meetingImages" multiple accept="image/*" class="image-upload">
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="btn back-btn" onclick="window.location.href='dashboard-user.html'">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i> Submit Details
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const meetingForm = document.getElementById('meetingForm');
+            const fileUpload = document.querySelector('.form-group.file-upload');
+            const fileInput = document.getElementById('meetingImages');
+            
+            // File upload visual feedback
+            fileUpload.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('active');
+            });
+            
+            fileUpload.addEventListener('dragleave', function() {
+                this.classList.remove('active');
+            });
+            
+            fileUpload.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('active');
+                fileInput.files = e.dataTransfer.files;
+                updateFileLabel();
+            });
+            
+            fileInput.addEventListener('change', updateFileLabel);
+            
+            function updateFileLabel() {
+                const fileCount = fileInput.files.length;
+                const fileText = document.querySelector('.file-upload-text');
+                
+                if (fileCount > 0) {
+                    fileText.textContent = fileCount === 1 
+                        ? '1 image selected' 
+                        : `${fileCount} images selected`;
+                    fileUpload.style.borderColor = 'var(--primary-pink)';
+                } else {
+                    fileText.textContent = 'Upload Images';
+                    fileUpload.style.borderColor = '#e0e0e0';
+                }
+            }
+            
+            // Form submission
+            meetingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Here you would typically send the form data to a server
+                // For demo purposes, we'll just show an alert
+                alert('Meeting details submitted successfully!');
+                
+                // Redirect back to dashboard
+                window.location.href = 'dashboard-user.html';
+            });
+        });
+    </script>
+</body>
+</html>
